@@ -32,12 +32,12 @@ var driver = drool.start({
 The next step is to define a flow. A [flow](#flow) is a declarative hash where you define actions at given points in the lifecycle of your drool tests.
 
 ```js
-return drool.flow({
+drool.flow({
   setup: function() {
     driver.get('file://' + path.join(__dirname, 'examples/', 'leaking.html'));
   },
   action: function() {
-    driver.findElement(webdriver.By.css('#leak')).click();
+    driver.findElement(drool.webdriver.By.css('#leak')).click();
   },
   assert: function(after, initial) {
     assert.notEqual(initial.counts.nodes, after.counts.nodes, 'node count should not match');
@@ -69,7 +69,7 @@ drool.start({
 
 #### flow
 
-The `flow` method returns a Promise, that will be resolved (or rejected) after the exit step has been called (regardless of if you pass an exit method). Flow takes two required aguments, the first agument is an object that contains the flow actions, the second argument is a [selenium webdriver](http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index.html) instance (For instance the one returned by [start](#start)
+The `flow` method returns a Promise, that will be resolved (or rejected) after the exit step has been called (regardless of if you pass an exit method). Flow takes two required arguments, the first argument is an object that contains the flow actions, the second argument is a [selenium webdriver](http://seleniumhq.github.io/selenium/docs/api/javascript/module/selenium-webdriver/index.html) instance (For instance the one returned by [start](#start)
 
 ##### flow cycle
 
@@ -77,7 +77,7 @@ the "flow" action object is a set of life cycle key value pairs that will be inv
 
 1. `setup`
 2. `action` (to prewarm any DOM/Listener cache)
-3. Initial Measurement is taken aftter via [getCounts](#getcounts)
+3. Initial Measurement is taken after via [getCounts](#getcounts)
 4. `action` * `repeatCount` times (repeat count defaults to 5)
 5. `beforeAssert`
 6. Final Measurement is taken after via [getCounts](#getcounts)
@@ -91,7 +91,7 @@ As the invokee of a flow, you can control how many times the action is invoked v
 For example:
 
 ```js
-return drool.flow({
+drool.flow({
   repeatCount: 100,
   setup: function() {
     driver.get('file://' + path.join(__dirname, 'examples/', 'inputs.html'));
